@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    tools:context=".fragments.CharacterFragment"
+    android:id="@+id/character_fragment"
+    >
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+           >
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/single_character_image_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                android:elevation="16dp"
+                app:cardCornerRadius="48dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                >
+
+                <ImageView
+                    android:id="@+id/single_character_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    tools:src="@mipmap/ic_launcher" />
+            </androidx.cardview.widget.CardView>
+
+
+            <TextView
+                android:id="@+id/single_character_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="24sp"
+                app:layout_constraintTop_toBottomOf="@+id/single_character_image_container"
+                tools:text="name" />
+
+            <TextView
+                android:id="@+id/single_character_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="24sp"
+                app:layout_constraintTop_toBottomOf="@+id/single_character_name"
+                tools:text="status" />
+
+            <TextView
+                android:id="@+id/single_character_species"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="24sp"
+                app:layout_constraintTop_toBottomOf="@+id/single_character_status"
+                tools:text="species" />
+
+            <TextView
+                android:id="@+id/single_character_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="24sp"
+                app:layout_constraintTop_toBottomOf="@+id/single_character_species"
+                tools:text="gender" />
+
+            <TextView
+                android:id="@+id/single_character_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="24sp"
+                app:layout_constraintTop_toBottomOf="@+id/single_character_gender"
+                tools:text="location" />
+
+            <TextView
+                android:id="@+id/single_character_origin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="24sp"
+                app:layout_constraintTop_toBottomOf="@+id/single_character_location"
+                tools:text="origin" />
+
+            <TextView
+                android:id="@+id/episodes_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Episodes:"
+                android:textSize="24sp"
+                app:layout_constraintTop_toBottomOf="@+id/single_character_origin" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/character_episode_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                app:layout_constraintTop_toBottomOf="@+id/episodes_title"
+                tools:listitem="@layout/single_episode_item" />
+
+            <ProgressBar
+                android:id="@+id/character_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/character_episode_recycler_view"
+                app:layout_constraintBottom_toBottomOf="@+id/character_episode_recycler_view"
+                app:layout_constraintStart_toStartOf="@+id/character_episode_recycler_view"
+                app:layout_constraintEnd_toEndOf="@+id/character_episode_recycler_view"
+
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
