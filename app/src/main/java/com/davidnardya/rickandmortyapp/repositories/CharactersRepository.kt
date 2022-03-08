@@ -6,8 +6,11 @@ import com.davidnardya.rickandmortyapp.api.SimpleApi
 import com.davidnardya.rickandmortyapp.dao.CharacterDao
 import com.davidnardya.rickandmortyapp.models.CharacterResult
 import com.davidnardya.rickandmortyapp.models.Episode
+import javax.inject.Inject
 
-class CharactersRepository(private val characterDao: CharacterDao) {
+class CharactersRepository @Inject constructor(
+    private val characterDao: CharacterDao
+    ) {
 
     var apiService: SimpleApi = RetrofitInstance.api
     val readAllData: LiveData<List<CharacterResult>> = characterDao.readAllData()

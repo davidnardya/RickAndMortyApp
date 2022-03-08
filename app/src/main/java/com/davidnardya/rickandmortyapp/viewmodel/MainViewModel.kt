@@ -8,25 +8,26 @@ import com.davidnardya.rickandmortyapp.db.CharactersDataBase
 import com.davidnardya.rickandmortyapp.models.CharacterResult
 import com.davidnardya.rickandmortyapp.repositories.CharactersRepository
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(context: Context) : ViewModel() {
+class MainViewModel @Inject constructor(private val charactersRepository: CharactersRepository) : ViewModel() {
 
     //Properties
     var charactersList: MutableLiveData<List<CharacterResult>> = MutableLiveData()
-    private val repository: CharactersRepository
+//    private val repository: CharactersRepository
 
     init {
-        val characterDao = CharactersDataBase.getDataBase(context).characterDao()
-        repository = CharactersRepository(characterDao)
-        charactersList.value = repository.readAllData.value
+//        val characterDao = CharactersDataBase.getDataBase(context).characterDao()
+//        repository = CharactersRepository(characterDao)
+        charactersList.value = charactersRepository.readAllData.value
     }
 
     fun getCharacters() {
         viewModelScope.launch {
-            charactersList.value = repository.getCharacters()
+            charactersList.value = charactersRepository.getCharacters()
             if (charactersList.value != null) {
                 charactersList.value!!.forEach { character ->
-                    repository.addCharacter(character)
+                    charactersRepository.addCharacter(character)
                 }
             }
         }

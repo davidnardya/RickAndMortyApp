@@ -4,30 +4,33 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.davidnardya.rickandmortyapp.dao.CharacterDao
 import com.davidnardya.rickandmortyapp.db.CharactersDataBase
 import com.davidnardya.rickandmortyapp.models.CharacterResult
 import com.davidnardya.rickandmortyapp.models.Episode
 import com.davidnardya.rickandmortyapp.repositories.CharactersRepository
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class EpisodeFragmentViewModel(context: Context) : ViewModel() {
+class EpisodeFragmentViewModel @Inject constructor(
+    private val charactersRepository: CharactersRepository
+) : ViewModel() {
 
     //Properties
     var charactersList: MutableLiveData<List<CharacterResult>> = MutableLiveData()
-    private val repository: CharactersRepository
+//    private val repository: CharactersRepository = CharactersRepository(characterDao)
 
     init {
-        val characterDao = CharactersDataBase.getDataBase(context).characterDao()
-        repository = CharactersRepository(characterDao)
-        charactersList.value = repository.readAllData.value
+//        val characterDao = CharactersDataBase.getDataBase(context).characterDao()
+        charactersList.value = charactersRepository.readAllData.value
     }
 
     fun getCharacters(episode: Episode) {
         viewModelScope.launch {
-            charactersList.value = repository.getCharactersPerEpisode(episode)
+            charactersList.value = charactersRepository.getCharactersPerEpisode(episode)
             if (charactersList.value != null) {
                 charactersList.value!!.forEach { character ->
-                    repository.addCharacter(character)
+                    charactersRepository.addCharacter(character)
                 }
             }
         }

@@ -15,7 +15,7 @@ abstract class CharactersDataBase: RoomDatabase() {
 
     abstract fun characterDao(): CharacterDao
 
-    companion object{
+    /*companion object{
         @Volatile
         private var INSTANCE: CharactersDataBase? = null
 
@@ -34,5 +34,22 @@ abstract class CharactersDataBase: RoomDatabase() {
                 return instance
             }
         }
+    }*/
+
+    companion object {
+        @Volatile
+        private var instance: CharactersDataBase? = null
+
+        fun getDatabase(context: Context): CharactersDataBase =
+            instance ?: synchronized(this) {
+                instance ?: buildDatabase(context).also {
+                    instance = it
+                }
+            }
+
+        private fun buildDatabase(appContext: Context) =
+            Room.databaseBuilder(appContext, CharactersDataBase::class.java, "characters_database")
+                .fallbackToDestructiveMigration()
+                .build()
     }
 }

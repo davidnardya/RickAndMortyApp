@@ -16,7 +16,7 @@ abstract class EpisodeDataBase : RoomDatabase() {
 
     abstract fun episodeDao(): EpisodeDao
 
-    companion object {
+    /*companion object {
         @Volatile
         private var INSTANCE: EpisodeDataBase? = null
 
@@ -35,5 +35,22 @@ abstract class EpisodeDataBase : RoomDatabase() {
                 return instance
             }
         }
+    }*/
+
+    companion object {
+        @Volatile
+        private var instance: EpisodeDataBase? = null
+
+        fun getDatabase(context: Context): EpisodeDataBase =
+            instance ?: synchronized(this) {
+                instance ?: buildDatabase(context).also {
+                    instance = it
+                }
+            }
+
+        private fun buildDatabase(appContext: Context) =
+            Room.databaseBuilder(appContext, EpisodeDataBase::class.java, "episodes_database")
+                .fallbackToDestructiveMigration()
+                .build()
     }
 }
