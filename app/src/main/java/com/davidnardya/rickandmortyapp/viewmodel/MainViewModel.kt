@@ -1,10 +1,8 @@
 package com.davidnardya.rickandmortyapp.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.davidnardya.rickandmortyapp.db.CharactersDataBase
 import com.davidnardya.rickandmortyapp.models.CharacterResult
 import com.davidnardya.rickandmortyapp.repositories.CharactersRepository
 import kotlinx.coroutines.launch
@@ -14,11 +12,8 @@ class MainViewModel @Inject constructor(private val charactersRepository: Charac
 
     //Properties
     var charactersList: MutableLiveData<List<CharacterResult>> = MutableLiveData()
-//    private val repository: CharactersRepository
 
     init {
-//        val characterDao = CharactersDataBase.getDataBase(context).characterDao()
-//        repository = CharactersRepository(characterDao)
         charactersList.value = charactersRepository.readAllData.value
     }
 

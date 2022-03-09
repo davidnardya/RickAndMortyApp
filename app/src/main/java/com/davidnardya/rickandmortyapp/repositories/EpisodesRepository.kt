@@ -1,14 +1,14 @@
 package com.davidnardya.rickandmortyapp.repositories
 
-import com.davidnardya.rickandmortyapp.api.RetrofitInstance
 import com.davidnardya.rickandmortyapp.api.SimpleApi
 import com.davidnardya.rickandmortyapp.dao.EpisodeDao
 import com.davidnardya.rickandmortyapp.models.CharacterResult
 import com.davidnardya.rickandmortyapp.models.Episode
 
-class EpisodesRepository(private val episodeDao: EpisodeDao) {
-
-    var apiService: SimpleApi = RetrofitInstance.api
+class EpisodesRepository(
+    private val episodeDao: EpisodeDao,
+    private val apiService: SimpleApi
+) {
 
     suspend fun addEpisode(episode: Episode) {
         episodeDao.addEpisode(episode)

@@ -1,7 +1,6 @@
 package com.davidnardya.rickandmortyapp.repositories
 
 import androidx.lifecycle.LiveData
-import com.davidnardya.rickandmortyapp.api.RetrofitInstance
 import com.davidnardya.rickandmortyapp.api.SimpleApi
 import com.davidnardya.rickandmortyapp.dao.CharacterDao
 import com.davidnardya.rickandmortyapp.models.CharacterResult
@@ -9,10 +8,10 @@ import com.davidnardya.rickandmortyapp.models.Episode
 import javax.inject.Inject
 
 class CharactersRepository @Inject constructor(
-    private val characterDao: CharacterDao
-    ) {
+    private val characterDao: CharacterDao,
+    private val apiService: SimpleApi
+) {
 
-    var apiService: SimpleApi = RetrofitInstance.api
     val readAllData: LiveData<List<CharacterResult>> = characterDao.readAllData()
 
     suspend fun addCharacter(character: CharacterResult) {

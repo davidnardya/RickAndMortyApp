@@ -1,6 +1,8 @@
 package com.davidnardya.rickandmortyapp.di
 
 import android.content.Context
+import com.davidnardya.rickandmortyapp.api.RetrofitInstance
+import com.davidnardya.rickandmortyapp.api.SimpleApi
 import com.davidnardya.rickandmortyapp.dao.CharacterDao
 import com.davidnardya.rickandmortyapp.dao.EpisodeDao
 import com.davidnardya.rickandmortyapp.db.CharactersDataBase
@@ -24,7 +26,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideMainViewModel(charactersRepository: CharactersRepository) = MainViewModel(charactersRepository)
+    fun provideMainViewModel(charactersRepository: CharactersRepository) =
+        MainViewModel(charactersRepository)
 
     @Singleton
     @Provides
@@ -38,11 +41,13 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideEpisodeDataBase(@ApplicationContext context: Context) = EpisodeDataBase.getDatabase(context)
+    fun provideEpisodeDataBase(@ApplicationContext context: Context) =
+        EpisodeDataBase.getDatabase(context)
 
     @Singleton
     @Provides
-    fun provideCharactersDataBase(@ApplicationContext context: Context) = CharactersDataBase.getDatabase(context)
+    fun provideCharactersDataBase(@ApplicationContext context: Context) =
+        CharactersDataBase.getDatabase(context)
 
     @Singleton
     @Provides
@@ -54,10 +59,21 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideCharactersRepository(characterDao: CharacterDao) = CharactersRepository(characterDao)
+    fun provideCharactersRepository(characterDao: CharacterDao, simpleApi: SimpleApi) =
+        CharactersRepository(characterDao, simpleApi)
 
     @Singleton
     @Provides
-    fun provideEpisodeRepository(episodeDao: EpisodeDao) = EpisodesRepository(episodeDao)
+    fun provideEpisodeRepository(episodeDao: EpisodeDao, simpleApi: SimpleApi) =
+        EpisodesRepository(episodeDao, simpleApi)
+
+    @Singleton
+    @Provides
+    fun provideRetrofitInstance() = RetrofitInstance
+
+    @Singleton
+    @Provides
+    fun provideSimpleService(retrofitInstance: RetrofitInstance): SimpleApi =
+        retrofitInstance.create(SimpleApi::class.java)
 
 }
