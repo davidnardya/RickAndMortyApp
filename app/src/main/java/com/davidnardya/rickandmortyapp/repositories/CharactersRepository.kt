@@ -1,8 +1,12 @@
 package com.davidnardya.rickandmortyapp.repositories
 
 import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.liveData
 import com.davidnardya.rickandmortyapp.api.SimpleApi
 import com.davidnardya.rickandmortyapp.dao.CharacterDao
+import com.davidnardya.rickandmortyapp.data.CharacterPagingSource
 import com.davidnardya.rickandmortyapp.models.CharacterResult
 import com.davidnardya.rickandmortyapp.models.Episode
 import javax.inject.Inject
@@ -36,5 +40,15 @@ class CharactersRepository @Inject constructor(
 
         return charactersList
     }
+
+    fun getResults() =
+        Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                maxSize = 100,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { CharacterPagingSource(apiService) }
+        ).liveData
 
 }

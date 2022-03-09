@@ -3,6 +3,8 @@ package com.davidnardya.rickandmortyapp.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.davidnardya.rickandmortyapp.R
@@ -10,60 +12,64 @@ import com.davidnardya.rickandmortyapp.databinding.SingleCharacterItemBinding
 import com.davidnardya.rickandmortyapp.fragments.CharacterFragment
 import com.davidnardya.rickandmortyapp.models.CharacterResult
 
-class MainAdapter : RecyclerView.Adapter<MainAdapter.ViewHolder>() {
+class MainAdapter :
+    PagingDataAdapter<CharacterResult, MainAdapter.CharacterViewHolder>(CHARACTER_COMPARATOR) {
 
-    //Properties
-    var charactersList = emptyList<CharacterResult>()
-
-    //ViewHolder
-    inner class ViewHolder(private val binding: SingleCharacterItemBinding) :
+    inner class CharacterViewHolder(private val binding: SingleCharacterItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(character: CharacterResult) {
-            binding.characterNameTextView.text = character.name
+            binding.apply {
+                characterNameTextView.text = character.name
 
-            Glide.with(binding.characterImageView)
-                .asBitmap()
-                .load(character.image)
-                .into(binding.characterImageView)
+                Glide.with(characterImageView)
+                    .asBitmap()
+                    .load(character.image)
+                    .into(characterImageView)
 
-            binding.characterContainer.setOnClickListener { v ->
-                val activity = v!!.context as AppCompatActivity
-                val characterFragment = CharacterFragment(character)
-                activity.supportFragmentManager.beginTransaction()
-                    .setCustomAnimations(
-                        R.anim.enter_from_right,
-                        R.anim.exit_to_right,
-                        R.anim.enter_from_right,
-                        R.anim.exit_to_right
-                    )
-                    .replace(R.id.main_activity, characterFragment).addToBackStack(null)
-                    .commit()
+                characterContainer.setOnClickListener { v ->
+                    val activity = v!!.context as AppCompatActivity
+                    val characterFragment = CharacterFragment(character)
+                    activity.supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(
+                            R.anim.enter_from_right,
+                            R.anim.exit_to_right,
+                            R.anim.enter_from_right,
+                            R.anim.exit_to_right
+                        )
+                        .replace(R.id.main_activity, characterFragment).addToBackStack(null)
+                        .commit()
+                }
             }
         }
     }
 
-    //RV Methods
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            SingleCharacterItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
+        val binding =
+            SingleCharacterItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return CharacterViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(charactersList[position])
+    override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
+        val currentItem = getItem(position)
+        if (currentItem != null) {
+            holder.bind(currentItem)
+        }
     }
 
-    override fun getItemCount(): Int {
-        return charactersList.size
+    companion object {
+        private val CHARACTER_COMPARATOR = object : DiffUtil.ItemCallback<CharacterResult>() {
+            override fun areItemsTheSame(
+                oldItem: CharacterResult,
+                newItem: CharacterResult
+            ) = oldItem.id == newItem.id
+
+            override fun areContentsTheSame(
+                oldItem: CharacterResult,
+                newItem: CharacterResult
+            ) = oldItem == newItem
+
+        }
     }
 
-    //Public methods
-    fun setData(newList: List<CharacterResult>) {
-        charactersList = newList
-        notifyDataSetChanged()
-    }
+
 }

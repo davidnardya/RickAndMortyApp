@@ -16,27 +16,6 @@ abstract class EpisodeDataBase : RoomDatabase() {
 
     abstract fun episodeDao(): EpisodeDao
 
-    /*companion object {
-        @Volatile
-        private var INSTANCE: EpisodeDataBase? = null
-
-        fun getDataBase(context: Context): EpisodeDataBase {
-            val tempInstance = INSTANCE
-            if (tempInstance != null) {
-                return tempInstance
-            }
-            synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    EpisodeDataBase::class.java,
-                    "episodes_database"
-                ).build()
-                INSTANCE = instance
-                return instance
-            }
-        }
-    }*/
-
     companion object {
         @Volatile
         private var instance: EpisodeDataBase? = null

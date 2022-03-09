@@ -3,6 +3,7 @@ package com.davidnardya.rickandmortyapp.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.davidnardya.rickandmortyapp.models.CharacterResult
 import com.davidnardya.rickandmortyapp.repositories.CharactersRepository
 import kotlinx.coroutines.launch
@@ -12,6 +13,7 @@ class MainViewModel @Inject constructor(private val charactersRepository: Charac
 
     //Properties
     var charactersList: MutableLiveData<List<CharacterResult>> = MutableLiveData()
+    val characters = charactersRepository.getResults().cachedIn(viewModelScope)
 
     init {
         charactersList.value = charactersRepository.readAllData.value

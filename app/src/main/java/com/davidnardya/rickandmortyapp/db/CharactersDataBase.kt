@@ -15,27 +15,6 @@ abstract class CharactersDataBase: RoomDatabase() {
 
     abstract fun characterDao(): CharacterDao
 
-    /*companion object{
-        @Volatile
-        private var INSTANCE: CharactersDataBase? = null
-
-        fun getDataBase(context: Context): CharactersDataBase{
-            val tempInstance = INSTANCE
-            if(tempInstance != null) {
-                return tempInstance
-            }
-            synchronized(this){
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    CharactersDataBase::class.java,
-                    "characters_database"
-                ).build()
-                INSTANCE = instance
-                return instance
-            }
-        }
-    }*/
-
     companion object {
         @Volatile
         private var instance: CharactersDataBase? = null

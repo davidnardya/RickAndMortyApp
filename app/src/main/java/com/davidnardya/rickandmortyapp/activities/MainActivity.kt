@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     //Properties
     private lateinit var binding: ActivityMainBinding
-    private val adapter by lazy { MainAdapter() }
+    private val mainAdapterPaging by lazy { MainAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,26 +29,25 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        defineBinding()
-        getDataFromApi()
+        setRecyclerViewBinding()
+        getData()
     }
 
-    //Private methods
-    private fun getDataFromApi() {
-        viewModel.getCharacters()
-        viewModel.charactersList.observe(this, Observer { response ->
-            if (response != null) {
+    private fun getData() {
+        viewModel.characters.observe(this) {
+            if (it != null) {
                 binding.mainProgressbar.visibility = View.GONE
-                adapter.setData(response)
-                Log.d("charactersList", "Loaded successfully")
-            } else {
-                Log.e("charactersList", "Something went wrong")
+                mainAdapterPaging.submitData(this.lifecycle, it)
             }
-        })
+        }
     }
 
-    private fun defineBinding() {
-        binding.recyclerview.adapter = adapter
-        binding.recyclerview.layoutManager = GridLayoutManager(this, 2)
+    private fun setRecyclerViewBinding() {
+        binding.apply {
+            recyclerview.setHasFixedSize(true)
+            recyclerview.layoutManager = GridLayoutManager(this@MainActivity, 2)
+            recyclerview.adapter = mainAdapterPaging
+        }
     }
+
 }
