@@ -21,9 +21,9 @@ import javax.inject.Inject
 class CharacterFragment(private val character: CharacterResult) : Fragment(),
     CharactersAdapter.MoveToEpisode {
 
+    //Properties
     @Inject
     lateinit var viewModel: CharacterFragmentViewModel
-
     private lateinit var binding: FragmentCharacterBinding
     private val adapter by lazy { CharactersAdapter(this) }
 

@@ -16,8 +16,10 @@ class CharactersRepository @Inject constructor(
     private val apiService: SimpleApi
 ) {
 
+    //Properties
     val readAllData: LiveData<List<CharacterResult>> = characterDao.readAllData()
 
+    //Public methods
     suspend fun addCharacter(character: CharacterResult) {
         characterDao.addCharacter(character)
     }

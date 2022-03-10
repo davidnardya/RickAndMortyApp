@@ -17,16 +17,17 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class EpisodeFragment(private val episode: Episode) : Fragment() {
 
+    //Properties
     @Inject
     lateinit var viewModel: EpisodeFragmentViewModel
-
     private lateinit var binding: FragmentEpisodeBinding
     private val adapter by lazy { EpisodesCharactersAdapter() }
 
+    //Override methods
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentEpisodeBinding.inflate(inflater, container, false)
 
         initAdapter()

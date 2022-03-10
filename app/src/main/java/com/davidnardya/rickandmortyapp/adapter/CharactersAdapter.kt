@@ -23,6 +23,7 @@ class CharactersAdapter(listenerFromFragment: MoveToEpisode) : RecyclerView.Adap
         }
     }
 
+    //RV Methods
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             SingleEpisodeItemBinding.inflate(

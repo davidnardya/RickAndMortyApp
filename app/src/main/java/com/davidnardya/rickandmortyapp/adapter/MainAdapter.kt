@@ -15,6 +15,7 @@ import com.davidnardya.rickandmortyapp.models.CharacterResult
 class MainAdapter :
     PagingDataAdapter<CharacterResult, MainAdapter.CharacterViewHolder>(CHARACTER_COMPARATOR) {
 
+    //ViewHolder
     inner class CharacterViewHolder(private val binding: SingleCharacterItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(character: CharacterResult) {
@@ -43,6 +44,7 @@ class MainAdapter :
         }
     }
 
+    //RV Methods
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
         val binding =
             SingleCharacterItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -56,6 +58,7 @@ class MainAdapter :
         }
     }
 
+    //Comparator
     companion object {
         private val CHARACTER_COMPARATOR = object : DiffUtil.ItemCallback<CharacterResult>() {
             override fun areItemsTheSame(

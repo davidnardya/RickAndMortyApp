@@ -16,10 +16,12 @@ class EpisodeFragmentViewModel @Inject constructor(
     //Properties
     var charactersList: MutableLiveData<List<CharacterResult>> = MutableLiveData()
 
+    //Initialize block
     init {
         charactersList.value = charactersRepository.readAllData.value
     }
 
+    //Public methods
     fun getCharacters(episode: Episode) {
         viewModelScope.launch {
             charactersList.value = charactersRepository.getCharactersPerEpisode(episode)

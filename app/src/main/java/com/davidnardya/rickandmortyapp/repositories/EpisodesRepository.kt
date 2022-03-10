@@ -10,6 +10,7 @@ class EpisodesRepository(
     private val apiService: SimpleApi
 ) {
 
+    //Public methods
     suspend fun addEpisode(episode: Episode) {
         episodeDao.addEpisode(episode)
     }

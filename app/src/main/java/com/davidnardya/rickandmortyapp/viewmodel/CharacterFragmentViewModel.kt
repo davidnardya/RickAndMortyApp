@@ -14,6 +14,7 @@ class CharacterFragmentViewModel @Inject constructor(private val episodesReposit
     //Properties
     var episodes: MutableLiveData<List<Episode>> = MutableLiveData()
 
+    //Public methods
     fun getEpisodes(characterResult: CharacterResult) {
         viewModelScope.launch {
             episodes.value = episodesRepository.getEpisodes(characterResult)

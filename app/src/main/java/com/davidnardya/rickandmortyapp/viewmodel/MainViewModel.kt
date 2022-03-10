@@ -1,6 +1,5 @@
 package com.davidnardya.rickandmortyapp.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -12,21 +11,12 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(private val charactersRepository: CharactersRepository) : ViewModel() {
 
     //Properties
-    var charactersList: MutableLiveData<List<CharacterResult>> = MutableLiveData()
     val characters = charactersRepository.getResults().cachedIn(viewModelScope)
 
-    init {
-        charactersList.value = charactersRepository.readAllData.value
-    }
-
-    fun getCharacters() {
+    //Public methods
+    suspend fun saveCharacterToDB(character: CharacterResult) {
         viewModelScope.launch {
-            charactersList.value = charactersRepository.getCharacters()
-            if (charactersList.value != null) {
-                charactersList.value!!.forEach { character ->
-                    charactersRepository.addCharacter(character)
-                }
-            }
+            charactersRepository.addCharacter(character)
         }
     }
 }

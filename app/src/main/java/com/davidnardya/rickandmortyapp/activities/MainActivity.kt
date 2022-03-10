@@ -2,9 +2,8 @@ package com.davidnardya.rickandmortyapp.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.lifecycle.Observer
+import androidx.paging.map
 import androidx.recyclerview.widget.GridLayoutManager
 import com.davidnardya.rickandmortyapp.R
 import com.davidnardya.rickandmortyapp.adapter.MainAdapter
@@ -16,13 +15,13 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    //Properties
     @Inject
     lateinit var viewModel: MainViewModel
-
-    //Properties
     private lateinit var binding: ActivityMainBinding
     private val mainAdapterPaging by lazy { MainAdapter() }
 
+    //Override methods
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -33,11 +32,15 @@ class MainActivity : AppCompatActivity() {
         getData()
     }
 
+    //Private methods
     private fun getData() {
         viewModel.characters.observe(this) {
             if (it != null) {
                 binding.mainProgressbar.visibility = View.GONE
                 mainAdapterPaging.submitData(this.lifecycle, it)
+                it.map { character ->
+                    viewModel.saveCharacterToDB(character)
+                }
             }
         }
     }
