@@ -3,7 +3,6 @@ package com.davidnardya.rickandmortyapp.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.paging.map
 import androidx.recyclerview.widget.GridLayoutManager
 import com.davidnardya.rickandmortyapp.R
 import com.davidnardya.rickandmortyapp.adapter.MainAdapter
@@ -38,9 +37,6 @@ class MainActivity : AppCompatActivity() {
             if (it != null) {
                 binding.mainProgressbar.visibility = View.GONE
                 mainAdapterPaging.submitData(this.lifecycle, it)
-                it.map { character ->
-                    viewModel.saveCharacterToDB(character)
-                }
             }
         }
     }

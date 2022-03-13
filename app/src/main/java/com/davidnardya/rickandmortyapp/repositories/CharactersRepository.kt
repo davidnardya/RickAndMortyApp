@@ -24,10 +24,6 @@ class CharactersRepository @Inject constructor(
         characterDao.addCharacter(character)
     }
 
-    suspend fun getCharacters(): List<CharacterResult> {
-        return apiService.getCharacters().characterResults
-    }
-
     suspend fun getCharactersPerEpisode(episode: Episode): List<CharacterResult> {
         val charactersList = mutableListOf<CharacterResult>()
 
@@ -50,7 +46,7 @@ class CharactersRepository @Inject constructor(
                 maxSize = 100,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { CharacterPagingSource(apiService) }
+            pagingSourceFactory = { CharacterPagingSource(apiService, this) }
         ).liveData
 
 }

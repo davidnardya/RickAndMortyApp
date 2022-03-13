@@ -4,13 +4,15 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.davidnardya.rickandmortyapp.api.SimpleApi
 import com.davidnardya.rickandmortyapp.models.CharacterResult
+import com.davidnardya.rickandmortyapp.repositories.CharactersRepository
 import retrofit2.HttpException
 import java.io.IOException
 
 private const val CHARACTER_STARTING_PAGE_INDEX = 1
 
 class CharacterPagingSource(
-    private val simpleApi: SimpleApi
+    private val simpleApi: SimpleApi,
+    private val charactersRepository: CharactersRepository
 ) : PagingSource<Int, CharacterResult>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CharacterResult> {
@@ -19,6 +21,9 @@ class CharacterPagingSource(
         return try {
             val response = simpleApi.getCharactersFromPage(position)
             val characters = response.characterResults
+            characters.forEach {
+                charactersRepository.addCharacter(it)
+            }
 
             LoadResult.Page(
                 data = characters,
